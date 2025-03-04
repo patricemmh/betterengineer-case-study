@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Readiness Case Study | BetterEngineer</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --primary: #535CB2;
+            --primary-dark: #424A8E;
+            --secondary: #6D76C9;
+            --accent: #FFB81C;
+            --dark: #1A1A2E;
+            --light: #F8F9FA;
+            --success: #28a745;
+            --white: #FFFFFF;
+            --gray: #6c757d;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            background-color: var(--light);
+            overflow-x: hidden;
+        }
+        
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: var(--white);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .logo-img {
+            height: 50px;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-left: 2rem;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+        
+        .cta-button {
+            background-color: var(--primary);
+            color: white;
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+        
+        .cta-button:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+        
+        .hero {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: var(--white);
+            padding: 8rem 2rem 6rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwYXR0ZXJuIiB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiIHBhdHRlcm5UcmFuc2Zvcm09InJvdGF0ZSgzMCkiPjxyZWN0IHdpZHRoPSIyIiBoZWlnaHQ9IjIiIHg9IjAiIHk9IjAiIGZpbGw9IiNmZmZmZmYiIG9wYWNpdHk9IjAuMSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNwYXR0ZXJuKSIvPjwvc3ZnPg==');
+            opacity: 0.6;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .hero-badge {
+            background-color: rgba(255, 255, 255, 0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+            display: inline-block;
+        }
+        
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto 2rem;
+        }
+        
+        .hero-cta {
+            display: inline-block;
+            background-color: var(--white);
+            color: var(--primary);
+            padding: 0.8rem 2rem;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .hero-cta:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+        
+        .container {
+            max-width: 1100px;
+            margin: -4rem auto 4rem;
+            position: relative;
+            z-index: 2;
+            padding: 0 2rem;
+        }
+        
+        .card {
+            background: var(--white);
+            border-radius: 12px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            margin-bottom: 2.5rem;
+            transition: transform 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .card-header {
+            padding: 1.8rem 2rem;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            display: flex;
+            align-items: center;
+            background-color: rgba(0, 102, 204, 0.03);
+        }
+        
+        .card-icon {
+            background-color: var(--primary);
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1.5rem;
+            color: var(--white);
+            font-size: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0, 102, 204, 0.2);
+        }
+        
+        .card-title {
+            margin: 0;
+            font-size: 1.8rem;
+            color: var(--primary);
+            font-weight: 700;
+        }
+        
+        .card-body {
+            padding: 2.5rem;
+        }
+        
+        .card-body p {
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+            color: var(--gray);
+        }
+        
+        .card-body ul, .card-body ol {
+            margin-bottom: 1.5rem;
+            padding-left: 1.5rem;
+        }
+        
+        .card-body li {
+            margin-bottom: 0.8rem;
+            color: var(--gray);
+        }
+        
+        .card-body li strong {
+            color: var(--dark);
+        }
+        
+        .results-card .card-header {
+            background-color: rgba(40, 167, 69, 0.05);
+        }
+        
+        .results-card .card-icon {
+            background-color: var(--success);
+            box-shadow: 0 5px 15px rgba(40, 167, 69, 0.2);
+        }
+        
+        .results-card .card-title {
+            color: var(--success);
+        }
+        
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .stat-item {
+            background-color: var(--light);
+            padding: 2rem;
+            border-radius: 10px;
+            text-align: center;
+            transition: transform 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .stat-item:hover {
+            transform: translateY(-8px);
+        }
+        
+        .stat-number {
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.8rem;
+            line-height: 1;
+        }
+        
+        .stat-label {
+            color: var(--gray);
+            font-size: 1rem;
+            font-weight: 500;
+        }
+        
+        .highlight {
+            background-color: rgba(255, 184, 28, 0.08);
+            border-left: 4px solid var(--accent);
+            padding: 2rem;
+            margin: 2rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .highlight h3 {
+            color: var(--dark);
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+        
+        .process-steps {
+            margin: 2rem 0;
+        }
+        
+        .process-step {
+            position: relative;
+            padding-left: 3rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .process-step:before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 30px;
+            height: 30px;
+            background-color: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+        
+        .process-step:nth-child(1):before { content: "1"; }
+        .process-step:nth-child(2):before { content: "2"; }
+        .process-step:nth-child(3):before { content: "3"; }
+        .process-step:nth-child(4):before { content: "4"; }
+        
+        .process-step h3 {
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+        }
+        
+        .testimonial {
+            background-color: var(--light);
+            padding: 2rem;
+            border-radius: 10px;
+            margin: 2rem 0;
+            position: relative;
+        }
+        
+        .testimonial:before {
+            content: """;
+            position: absolute;
+            top: 10px;
+            left: 20px;
+            font-size: 4rem;
+            color: var(--primary);
+            opacity: 0.2;
+            line-height: 1;
+        }
+        
+        .testimonial-content {
+            font-style: italic;
+            padding-left: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+        }
+        
+        .testimonial-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 1rem;
+        }
+        
+        .cta-section {
+            background: var(--white);
+            padding: 4rem 2rem;
+            text-align: center;
+            color: var(--dark);
+            border-radius: 12px;
+            margin-top: 3rem;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+        
+        .cta-content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .cta-content h2 {
+            font-size: 2.2rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+        
+        .cta-content p {
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            color: var(--gray);
+        }
+        
+        .cta-button-white {
+            background-color: var(--primary);
+            color: var(--white);
+            padding: 0.8rem 2rem;
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+        
+        .cta-button-white:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            background-color: var(--primary-dark);
+        }
+        
+        footer {
+            display: none;
+        }
+        
+        @media (max-width: 992px) {
+            .footer-content {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 1rem;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .hero {
+                padding: 7rem 1.5rem 5rem;
+            }
+            
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            
+            .container {
+                padding: 0 1.5rem;
+            }
+            
+            .card-header {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .card-icon {
+                margin-right: 0;
+                margin-bottom: 1rem;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <a href="#" class="logo">
+            <img src="Logo-betterengineer-medium-jpg.jpg" alt="BetterEngineer" class="logo-img">
+        </a>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-badge">Case Study</div>
+            <h1>Transforming AI Readiness for a Mid-Large Corporation</h1>
+            <p>How BetterEngineer helped Private Corp achieve 30%+ operational efficiency through strategic AI implementation</p>
+        </div>
+    </section>
+    
+    <div class="container">
+        <div class="card">
+            <div class="card-header">
+                <div class="card-icon"><i class="fas fa-lightbulb"></i></div>
+                <h2 class="card-title">Challenge</h2>
+            </div>
+            <div class="card-body">
+                <p>Private Corp had ambitious goals to integrate artificial intelligence (AI) into its operational workflows to boost efficiency, optimize supply chains, and enhance product quality through predictive maintenance. However, leadership faced significant obstacles:</p>
+                <ul>
+                    <li><strong>Fragmented data infrastructure</strong> across multiple systems</li>
+                    <li><strong>Limited in-house AI expertise</strong> and misaligned talent</li>
+                    <li><strong>Unclear vision</strong> of how to scale AI initiatives sustainably</li>
+                    <li><strong>Concerns about regulatory compliance</strong> and ethical AI use</li>
+                    <li><strong>Internal conflict</strong> around ROI and where to start</li>
+                </ul>
+                
+                <div class="testimonial">
+                    <p class="testimonial-content">"We knew AI could transform our operations, but we were struggling with where to start and how to ensure our investments would deliver real value."</p>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">PC</div>
+                        <div>
+                            <div class="testimonial-name">CTO, Private Corp</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card">
+            <div class="card-header">
+                <div class="card-icon"><i class="fas fa-cogs"></i></div>
+                <h2 class="card-title">Solution</h2>
+            </div>
+            <div class="card-body">
+                <p>BetterEngineer conducted a comprehensive AI Readiness Audit, starting with stakeholder interviews and an in-depth review of Private Corp's data ecosystem. The assessment process included:</p>
+                
+                <div class="process-steps">
+                    <div class="process-step">
+                        <h3>Evaluating Existing AI Initiatives</h3>
+                        <p>We assessed current AI projects and their alignment with business objectives.</p>
+                    </div>
+                    
+                    <div class="process-step">
+                        <h3>Analyzing Data Infrastructure</h3>
+                        <p>Our team identified integration and governance gaps in the existing data systems.</p>
+                    </div>
+                    
+                    <div class="process-step">
+                        <h3>Assessing Team Capabilities</h3>
+                        <p>We pinpointed skill gaps and created a talent development strategy.</p>
+                    </div>
+                    
+                    <div class="process-step">
+                        <h3>Providing Tailored Recommendations</h3>
+                        <p>We delivered data-driven recommendations for scalable AI adoption.</p>
+                    </div>
+                </div>
+                
+                <div class="highlight">
+                    <h3>Deliverables Provided:</h3>
+                    <ul>
+                        <li>An <strong>actionable AI roadmap</strong> outlining short-term and long-term priorities.</li>
+                        <li><strong>Detailed risk assessment</strong> focusing on data integrity, talent gaps, and compliance.</li>
+                        <li><strong>Customized training plans</strong> to enhance internal AI capabilities.</li>
+                        <li><strong>Executive presentations</strong> to align leadership on the strategic AI vision.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card results-card">
+            <div class="card-header">
+                <div class="card-icon"><i class="fas fa-chart-line"></i></div>
+                <h2 class="card-title">Results</h2>
+            </div>
+            <div class="card-body">
+                <p>Within six months of completing the AI Readiness Audit, Private Corp achieved:</p>
+                
+                <div class="stat-grid">
+                    <div class="stat-item">
+                        <div class="stat-number">30%+</div>
+                        <div class="stat-label">Improvement in operational efficiency</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">↓</div>
+                        <div class="stat-label">Reduced data redundancy</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">↑</div>
+                        <div class="stat-label">Enhanced analytics accuracy</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">✓</div>
+                        <div class="stat-label">Sustainable talent strategy</div>
+                    </div>
+                </div>
+                
+                <ul>
+                    <li><strong>AI-driven predictive maintenance</strong> led to significant operational improvements, with a clear roadmap for further enhancements.</li>
+                    <li><strong>Streamlined data processes</strong>, reducing redundancy and enhancing analytics accuracy.</li>
+                    <li>A <strong>talent strategy</strong> that included upskilling existing staff and hiring key AI roles, ensuring sustainable growth.</li>
+                    <li><strong>Increased leadership confidence</strong> in AI initiatives, leading to faster, more effective decision-making.</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="card">
+            <div class="card-header">
+                <div class="card-icon"><i class="fas fa-flag-checkered"></i></div>
+                <h2 class="card-title">Conclusion</h2>
+            </div>
+            <div class="card-body">
+                <p>BetterEngineer's AI Readiness Audit empowered Private Corp to move from uncertainty to execution. By bridging technical and strategic gaps, the company now leverages AI as a critical component of its competitive strategy, showcasing how a well-defined roadmap can turn potential into performance.</p>
+                
+                <div class="highlight">
+                    <p>BetterEngineer's executive staff have been working on AI for the last 10+ years. The technologies we created still exist today, all the way to the international space station, to fighter pilot helmets, to everyday household products that are widely used today.</p>
+                </div>
+                
+                <div class="cta-section">
+                    <div class="cta-content">
+                        <h2>Ready to Transform Your AI Strategy?</h2>
+                        <p>Let's discuss how BetterEngineer can help your organization achieve similar results through our AI Readiness Assessment.</p>
+                        <a href="#" class="cta-button-white">Schedule a Consultation</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
